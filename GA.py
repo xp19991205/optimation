@@ -39,14 +39,18 @@ def my_fun(vector):
     value = np.square(x1)+np.square(x2)
     return value
 
-
+fig,ax = plt.subplots(2,1)
 ga = GA(func=my_fun, n_dim=2, size_pop=50, max_iter=800, lb=[-1, -1], ub=[1, 1], precision=1e-7)
 best_x, best_y = ga.run()
 print('最优值自变量:', best_x, '\n', '最优值因变量:', best_y) #这里对函数的最优值进行了求解
 Y_history = pd.DataFrame(ga.all_history_Y) #历史的优化迭代值Y（类型为List）
 # plt.plot(Y_history.index,Y_history.values,'-.', color = 'blue')
 ax[0].plot(Y_history.index, Y_history.values, '.', color='red')
-Y_history.min(axis=1).cummin().plot(kind='line') #800代，每代50个体(800*50) 绘制每一代的最小的y值
+ax[0].set_title('每次迭代各个种群的函数值')
+ax[1].plot(Y_history.index,Y_history.min(axis=1).cummin())
+ax[1].set_title('每次迭代各个种群的最优函数值')
+plt.subplots_adjust(hspace= 0.5)
+# Y_history.min(axis=1).cummin().plot(kind='line') #800代，每代50个体(800*50) 绘制每一代的最小的y值
 plt.show() #第二张图
 #Dataframe的方法：cummin()
 #计算累计最小值，例如，一个序列为3 4 5 5 4 3 那么生成的序列为 【3 3 3 3 3 3】，【inf 1 0 -1 2】对应【inf 1 0 -1 -1】
@@ -62,4 +66,4 @@ plt.show() #第二张图
 # plt.plot(x,Y)
 # plt.show()
 ''''''
-#上面的这段代码只用了一个X，多个Y拼成列的方式来进行
+#上面的这段代码只用了一个X，
