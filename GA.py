@@ -22,10 +22,16 @@ import matplotlib.pyplot as plt
 Y_history = pd.DataFrame(ga.all_history_Y)
 print(Y_history)
 fig, ax = plt.subplots(2, 1)
+plt.rcParams['font.sans-serif']=['SimHei'] #指定默认字体 SimHei为黑体
+plt.rcParams['axes.unicode_minus']=False #用来正常显示负号
 print(Y_history.index)
 ax[0].plot(Y_history.index, Y_history.values, '.', color='red')
-Y_history.min(axis=1).cummin().plot(kind='line')
-plt.show()
+ax[0].set_title('目标函数值优化路线')
+ax[1].plot(Y_history.index,Y_history.min(axis=1).cummin())
+# Y_history.min(axis=1).cummin().plot(kind='line')
+ax[1].set_title('每代种群中的最优值')
+plt.subplots_adjust(hspace=1, wspace=1)
+plt.show() #第一张图片
 
 #例子二
 def my_fun(vector):
@@ -41,16 +47,19 @@ Y_history = pd.DataFrame(ga.all_history_Y) #历史的优化迭代值Y（类型�
 # plt.plot(Y_history.index,Y_history.values,'-.', color = 'blue')
 ax[0].plot(Y_history.index, Y_history.values, '.', color='red')
 Y_history.min(axis=1).cummin().plot(kind='line') #800代，每代50个体(800*50) 绘制每一代的最小的y值
+plt.show() #第二张图
 #Dataframe的方法：cummin()
 #计算累计最小值，例如，一个序列为3 4 5 5 4 3 那么生成的序列为 【3 3 3 3 3 3】，【inf 1 0 -1 2】对应【inf 1 0 -1 -1】
 #先计算每一代里面最优的个体的函数值，再累计绘制全部的最优个体
 # plt.show()
 # print(Y_history.values)
-figure = plt.figure(figsize= (30,30),dpi=30)
-x = np.linspace(0,2*np.pi,100)
-y1 = np.sin(x)
-y2 = np.cos(x)
-Y = np.array([y1,y2]).transpose()#Y:100*2 x:100*1
-plt.plot(x,Y)
-plt.show()
+''''''
+# figure = plt.figure(figsize= (30,30),dpi=30)
+# x = np.linspace(0,2*np.pi,100)
+# y1 = np.sin(x)
+# y2 = np.cos(x)
+# Y = np.array([y1,y2]).transpose()#Y:100*2 x:100*1
+# plt.plot(x,Y)
+# plt.show()
+''''''
 #上面的这段代码只用了一个X，多个Y拼成列的方式来进行
